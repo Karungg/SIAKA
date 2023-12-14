@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use Myth\Auth\Password;
 
 class EmployeeController extends BaseController
 {
@@ -76,7 +77,7 @@ class EmployeeController extends BaseController
                 'fullname' => $request->getPost('fullname'),
                 'email' => $request->getPost('email'),
                 'username' => $request->getPost('username'),
-                'password_hash' => $request->getPost('password_hash'),
+                'password_hash' => Password::hash($request->getPost('password_hash')),
                 'phone' => $request->getPost('phone'),
                 'position_id' => $request->getPost('position_id'),
             ];
@@ -145,10 +146,9 @@ class EmployeeController extends BaseController
                 'fullname' => $request->getPost('fullname'),
                 'email' => $request->getPost('email'),
                 'username' => $request->getPost('username'),
+                'password_hash' => Password::hash($request->getPost('password_hash')),
                 'phone' => $request->getPost('phone'),
-                'password_hash' => $request->getPost('password_hash'),
                 'position_id' => $request->getPost('position_id'),
-                'active' => 1,
             ];
 
             $employeeModel->update($id, $data);

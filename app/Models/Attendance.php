@@ -12,7 +12,14 @@ class Attendance extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'title',
+        'description',
+        'entry_time',
+        'limit_entry_time',
+        'out_time',
+        'limit_out_time'
+    ];
 
     // Dates
     protected $useTimestamps = false;
