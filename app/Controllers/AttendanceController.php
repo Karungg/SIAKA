@@ -6,14 +6,18 @@ use App\Controllers\BaseController;
 
 class AttendanceController extends BaseController
 {
+    protected $attendanceModel;
+
+    public function __construct()
+    {
+        $this->attendanceModel = new \App\Models\Attendance();
+    }
+
     public function index()
     {
-        $attendanceModel = new \App\Models\Attendance();
-        $pager = \Config\Services::pager();
-
         $data = [
-            'attendances' => $attendanceModel->paginate(10, 'attendance'),
-            'pager' => $pager,
+            'attendances' => $this->attendanceModel->paginate(10, 'attendance'),
+            'pager' => \Config\Services::pager(),
             'current_page' => 'attendance'
         ];
 
@@ -59,7 +63,6 @@ class AttendanceController extends BaseController
             ]);
         } else {
             $request = \Config\Services::request();
-            $attendanceModel = new \App\Models\Attendance();
 
             $data = [
                 'title' => $request->getPost('title'),
@@ -70,7 +73,7 @@ class AttendanceController extends BaseController
                 'limit_out_time' => $request->getPost('limit_out_time'),
             ];
 
-            $attendanceModel->insert($data);
+            $this->attendanceModel->insert($data);
 
             return redirect()->to(site_url('attendance'))->with('success', 'Add attendance Successfully');
         }
@@ -78,10 +81,8 @@ class AttendanceController extends BaseController
 
     public function edit($id)
     {
-        $attendanceModel = new \App\Models\Attendance();
-
         return view('attendances/edit', [
-            'attendance' => $attendanceModel->find($id),
+            'attendance' => $this->attendanceModel->find($id),
             'current_page' => 'attendance'
         ]);
     }
@@ -89,6 +90,7 @@ class AttendanceController extends BaseController
     public function update($id)
     {
         helper(['form', 'url']);
+        $request = \Config\Services::request();
 
         $validation = $this->validate([
             'title' => [
@@ -117,9 +119,6 @@ class AttendanceController extends BaseController
                 'current_page' => 'attendance'
             ]);
         } else {
-            $request = \Config\Services::request();
-            $attendanceModel = new \App\Models\Attendance();
-
             $data = [
                 'title' => $request->getPost('title'),
                 'description' => $request->getPost('description'),
@@ -129,7 +128,7 @@ class AttendanceController extends BaseController
                 'limit_out_time' => $request->getPost('limit_out_time'),
             ];
 
-            $attendanceModel->update($id, $data);
+            $this->attendanceModel->update($id, $data);
 
             return redirect()->to(site_url('attendance'))->with('success', 'Edit attendance Successfully');
         }
@@ -137,12 +136,10 @@ class AttendanceController extends BaseController
 
     public function delete($id)
     {
-        $attendanceModel = new \App\Models\Attendance();
-
-        $attendance = $attendanceModel->find($id);
+        $attendance = $this->attendanceModel->find($id);
 
         if ($attendance) {
-            $attendanceModel->delete($id);
+            $this->attendanceModel->delete($id);
 
             return redirect()->to(site_url('attendance'))->with('success', 'Delete attendance Successfully');
         }
