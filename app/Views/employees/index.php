@@ -1,5 +1,9 @@
 <?= $this->extend('layouts/app'); ?>
 
+<?= $this->section('title'); ?>
+Employee
+<?= $this->endSection('title'); ?>
+
 <?= $this->section('content'); ?>
 <section class="section">
   <div class="section-header">

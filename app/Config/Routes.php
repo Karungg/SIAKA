@@ -33,3 +33,12 @@ $routes->group('employee', static function ($routes) {
     $routes->post('edit/(:num)', [\App\Controllers\EmployeeController::class, 'update/$1']);
     $routes->get('delete/(:num)', [\App\Controllers\EmployeeController::class, 'delete/$1']);
 });
+
+$routes->group('presence', static function ($routes) {
+    $routes->get('', [\App\Controllers\PresenceController::class, 'index']);
+    $routes->get('create', [\App\Controllers\PresenceController::class, 'create']);
+    $routes->post('create', [\App\Controllers\PresenceController::class, 'store']);
+    $routes->get('edit/(:num)', [\App\Controllers\PresenceController::class, 'edit/$1']);
+    $routes->post('edit/(:num)', [\App\Controllers\PresenceController::class, 'update/$1']);
+    $routes->get('delete/(:num)', [\App\Controllers\PresenceController::class, 'delete/$1']);
+});
