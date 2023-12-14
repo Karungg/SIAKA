@@ -7,27 +7,29 @@ use Myth\Auth\Password;
 
 class EmployeeController extends BaseController
 {
+    protected $employeeModel, $positionModel;
+
+    public function __construct()
+    {
+        $this->employeeModel = new \Myth\Auth\Models\UserModel();
+        $this->positionModel = new \App\Models\Position();
+    }
     public function index()
     {
-        $employeeModel = new \Myth\Auth\Models\UserModel();
-        $pager = \Config\Services::pager();
-
         $data = [
-            'pager' => $pager,
-            'current_page' => 'employee'
+            'pager' => \Config\Services::pager(),
+            'current_page' => 'employee',
+            'users' => $this->employeeModel->findAll(),
         ];
-        $data['users'] = $employeeModel->findAll();
 
         return view('employees/index', $data);
     }
 
     public function create()
     {
-        $positionModel = new \App\Models\Position();
-
         return view('employees/create', [
             'current_page' => 'employee',
-            'positions' => $positionModel->findAll(),
+            'positions' => $this->positionModel->findAll(),
         ]);
     }
 
@@ -61,18 +63,13 @@ class EmployeeController extends BaseController
         ]);
 
         if (!$validation) {
-
-            $positions = new \App\Models\Position();
-
             return view('employees/create', [
                 'validation' => $this->validator,
                 'current_page' => 'employee',
-                'positions' => $positions->findAll()
+                'positions' => $this->positionModel->findAll()
             ]);
         } else {
             $request = \Config\Services::request();
-            $employeeModel = new \App\Models\UserModel();
-
             $data = [
                 'fullname' => $request->getPost('fullname'),
                 'email' => $request->getPost('email'),
@@ -82,7 +79,7 @@ class EmployeeController extends BaseController
                 'position_id' => $request->getPost('position_id'),
             ];
 
-            $employeeModel->insert($data);
+            $this->employeeModel->insert($data);
 
             return redirect()->to(site_url('employee'))->with('success', 'Add employee Successfully');
         }
@@ -90,13 +87,10 @@ class EmployeeController extends BaseController
 
     public function edit($id)
     {
-        $employeeModel = new \App\Models\UserModel();
-        $positionModel = new \App\Models\Position();
-
         return view('employees/edit', [
-            'employee' => $employeeModel->find($id),
+            'employee' => $this->employeeModel->find($id),
             'current_page' => 'employee',
-            'positions' => $positionModel->findAll()
+            'positions' => $this->positionModel->findAll()
         ]);
     }
 
@@ -130,18 +124,13 @@ class EmployeeController extends BaseController
         ]);
 
         if (!$validation) {
-
-            $positions = new \App\Models\Position();
-
             return view('employees/create', [
                 'validation' => $this->validator,
                 'current_page' => 'employee',
-                'positions' => $positions->findAll()
+                'positions' => $this->positionModel->findAll()
             ]);
         } else {
             $request = \Config\Services::request();
-            $employeeModel = new \App\Models\UserModel();
-
             $data = [
                 'fullname' => $request->getPost('fullname'),
                 'email' => $request->getPost('email'),
@@ -151,7 +140,7 @@ class EmployeeController extends BaseController
                 'position_id' => $request->getPost('position_id'),
             ];
 
-            $employeeModel->update($id, $data);
+            $this->employeeModel->update($id, $data);
 
             return redirect()->to(site_url('employee'))->with('success', 'Edit employee Successfully');
         }
@@ -159,12 +148,10 @@ class EmployeeController extends BaseController
 
     public function delete($id)
     {
-        $employeeModel = new \App\Models\UserModel();
-
-        $employee = $employeeModel->find($id);
+        $employee = $this->employeeModel->find($id);
 
         if ($employee) {
-            $employeeModel->delete($id);
+            $this->employeeModel->delete($id);
 
             return redirect()->to(site_url('employee'))->with('success', 'Delete employee Successfully');
         }

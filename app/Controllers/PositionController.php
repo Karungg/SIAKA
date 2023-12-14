@@ -6,14 +6,18 @@ use App\Controllers\BaseController;
 
 class PositionController extends BaseController
 {
+    protected $positionModel;
+
+    public function __construct()
+    {
+        $this->positionModel = new \App\Models\Position();
+    }
+
     public function index()
     {
-        $positionModel = new \App\Models\Position();
-        $pager = \Config\Services::pager();
-
         $data = [
-            'positions' => $positionModel->paginate(10, 'position'),
-            'pager' => $pager,
+            'positions' => $this->positionModel->paginate(10, 'position'),
+            'pager' => \Config\Services::pager(),
             'current_page' => 'position'
         ];
 
@@ -44,13 +48,11 @@ class PositionController extends BaseController
             ]);
         } else {
             $request = \Config\Services::request();
-            $positionModel = new \App\Models\Position();
-
             $data = [
                 'name' => $request->getPost('position')
             ];
 
-            $positionModel->insert($data);
+            $this->positionModel->insert($data);
 
             return redirect()->to(site_url('position'))->with('success', 'Add Position Successfully');
         }
@@ -58,10 +60,8 @@ class PositionController extends BaseController
 
     public function edit($id)
     {
-        $positionModel = new \App\Models\Position();
-
         return view('positions/edit', [
-            'position' => $positionModel->find($id),
+            'position' => $this->positionModel->find($id),
             'current_page' => 'position'
         ]);
     }
@@ -83,13 +83,11 @@ class PositionController extends BaseController
             ]);
         } else {
             $request = \Config\Services::request();
-            $positionModel = new \App\Models\Position();
-
             $data = [
                 'name' => $request->getPost('position')
             ];
 
-            $positionModel->update($id, $data);
+            $this->positionModel->update($id, $data);
 
             return redirect()->to(site_url('position'))->with('success', 'Edit Position Successfully');
         }
@@ -97,12 +95,10 @@ class PositionController extends BaseController
 
     public function delete($id)
     {
-        $positionModel = new \App\Models\Position();
-
-        $position = $positionModel->find($id);
+        $position = $this->positionModel->find($id);
 
         if ($position) {
-            $positionModel->delete($id);
+            $this->positionModel->delete($id);
 
             return redirect()->to(site_url('position'))->with('success', 'Delete Position Successfully');
         }
