@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', [\App\Controllers\DashboardController::class, 'index']);
 
-$routes->group('position', static function ($routes) {
+$routes->group('position', ['filter' => 'permission:manage-position'], static function ($routes) {
     $routes->get('', [\App\Controllers\PositionController::class, 'index']);
     $routes->get('create', [\App\Controllers\PositionController::class, 'create']);
     $routes->post('create', [\App\Controllers\PositionController::class, 'store']);
@@ -16,7 +16,7 @@ $routes->group('position', static function ($routes) {
     $routes->get('delete/(:num)', [\App\Controllers\PositionController::class, 'delete/$1']);
 });
 
-$routes->group('attendance', static function ($routes) {
+$routes->group('attendance', ['filter' => 'permission:manage-attendance'], static function ($routes) {
     $routes->get('', [\App\Controllers\AttendanceController::class, 'index']);
     $routes->get('create', [\App\Controllers\AttendanceController::class, 'create']);
     $routes->post('create', [\App\Controllers\AttendanceController::class, 'store']);
@@ -25,7 +25,7 @@ $routes->group('attendance', static function ($routes) {
     $routes->get('delete/(:num)', [\App\Controllers\AttendanceController::class, 'delete/$1']);
 });
 
-$routes->group('employee', static function ($routes) {
+$routes->group('employee', ['filter' => 'permission:manage-user'], static function ($routes) {
     $routes->get('', [\App\Controllers\EmployeeController::class, 'index']);
     $routes->get('create', [\App\Controllers\EmployeeController::class, 'create']);
     $routes->post('create', [\App\Controllers\EmployeeController::class, 'store']);
@@ -34,7 +34,7 @@ $routes->group('employee', static function ($routes) {
     $routes->get('delete/(:num)', [\App\Controllers\EmployeeController::class, 'delete/$1']);
 });
 
-$routes->group('presence', static function ($routes) {
+$routes->group('presence', ['filter' => 'permission:manage-presence'], static function ($routes) {
     $routes->get('', [\App\Controllers\PresenceController::class, 'index']);
     $routes->get('create', [\App\Controllers\PresenceController::class, 'create']);
     $routes->post('create', [\App\Controllers\PresenceController::class, 'store']);

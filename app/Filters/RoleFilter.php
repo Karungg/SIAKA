@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Filters;
@@ -18,7 +19,7 @@ class RoleFilter extends BaseFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         // If no user is logged in then send them to the login form.
-        if (! $this->authenticate->check()) {
+        if (!$this->authenticate->check()) {
             session()->set('redirect_url', current_url());
 
             return redirect($this->reservedRoutes['login']);
