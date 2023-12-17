@@ -7,10 +7,10 @@ Presence
 <?= $this->section('content'); ?>
 <section class="section">
   <div class="section-header">
-    <h1>Presences</h1>
+    <h1>Presence</h1>
     <div class="section-header-breadcrumb">
       <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-      <div class="breadcrumb-item">Presences</div>
+      <div class="breadcrumb-item">Presence</div>
     </div>
   </div>
 
@@ -18,83 +18,44 @@ Presence
 
     <div class="row">
       <div class="col-12 col-md-12 col-lg-12">
-        <div class="card">
-          <div class="card-header">
-            <a href="#" class="btn btn-primary">Tambah Data</a>
+        <?php if (session()->getFlashdata('success')) : ?>
+          <div class="alert alert-success alert-dismissible show fade">
+            <div class="alert-body">
+              <button class="close" data-dismiss="alert">
+                <span>&times;</span>
+              </button>
+              <?= session()->getFlashdata('success') ?>
+            </div>
           </div>
+        <?php endif; ?>
+        <div class="card">
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table class="table table-striped table-md">
+              <table class="table table-hover table-striped table-md">
                 <tr>
-                  <th>#</th>
+                  <th>No</th>
                   <th>Name</th>
-                  <th>Created At</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th>Description</th>
+                  <th>Entry Time</th>
+                  <th>Out Time</th>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Irwansyah Saputra</td>
-                  <td>2017-01-09</td>
-                  <td>
-                    <div class="badge badge-success">Active</div>
-                  </td>
-                  <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Hasan Basri</td>
-                  <td>2017-01-09</td>
-                  <td>
-                    <div class="badge badge-success">Active</div>
-                  </td>
-                  <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Kusnadi</td>
-                  <td>2017-01-11</td>
-                  <td>
-                    <div class="badge badge-danger">Not Active</div>
-                  </td>
-                  <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Rizal Fakhri</td>
-                  <td>2017-01-11</td>
-                  <td>
-                    <div class="badge badge-success">Active</div>
-                  </td>
-                  <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Isnap Kiswandi</td>
-                  <td>2017-01-17</td>
-                  <td>
-                    <div class="badge badge-success">Active</div>
-                  </td>
-                  <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                </tr>
+                <?php
+                $no = 1;
+                foreach ($attendances as $attendance) : ?>
+                  <tr>
+                    <td><?= $no++; ?></td>
+                    <td><?= $attendance['title'] ?></td>
+                    <td><?= $attendance['description'] ?></td>
+                    <td><?= $attendance['entry_time'] ?></td>
+                    <td><?= $attendance['out_time'] ?></td>
+                  </tr>
+                <?php endforeach ?>
               </table>
             </div>
           </div>
           <div class="card-footer text-right">
             <nav class="d-inline-block">
-              <ul class="pagination mb-0">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                </li>
-              </ul>
+              <?= $pager->links('position', 'bootstrap_pagination') ?>
             </nav>
           </div>
         </div>

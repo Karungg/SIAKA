@@ -88,7 +88,7 @@ class LoginModel extends Model
     {
         $config = config('Auth');
 
-        if (! $config->allowRemembering) {
+        if (!$config->allowRemembering) {
             return;
         }
 

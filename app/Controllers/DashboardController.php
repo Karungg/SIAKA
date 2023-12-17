@@ -21,7 +21,9 @@ class DashboardController extends BaseController
             'current_page' => 'dashboard',
             'total_user' => $this->userModel->countAll(),
             'total_position' => $this->positionModel->countAll(),
-            'total_attendance' => $this->attendanceModel->countAll()
+            'total_attendance' => $this->attendanceModel->countAll(),
+            'attendances' => $this->attendanceModel->paginate(10, 'attendance'),
+            'pager' => \Config\Services::pager()
         ]);
     }
 }

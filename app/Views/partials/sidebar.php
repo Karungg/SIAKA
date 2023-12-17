@@ -6,10 +6,15 @@
     <ul class="sidebar-menu">
       <li class="menu-header">Dashboard</li>
       <li class="<?= $current_page == 'dashboard' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('/') ?>"><i class="fas fa-fire"></i> <span>Dashboard</span></a></li>
-      <li class="menu-header">Master Data</li>
-      <li class="<?= $current_page == 'position' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('position') ?>"><i class="fas fa-network-wired"></i> <span>Positions</span></a></li>
-      <li class="<?= $current_page == 'employee' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('employee') ?>"><i class="fas fa-user"></i> <span>Employees</span></a></li>
-      <li class="<?= $current_page == 'attendance' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('attendance') ?>"><i class="fas fa-clipboard"></i> <span>Attendance</span></a></li>
-      <li class="<?= $current_page == 'presence' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('presence') ?>"><i class="fas fa-user-check"></i> <span>Presences</span></a></li>
+      <?php if (in_groups('Admin')) : ?>
+        <li class="menu-header">Master Data</li>
+        <li class="<?= $current_page == 'position' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('position') ?>"><i class="fas fa-network-wired"></i> <span>Positions</span></a></li>
+        <li class="<?= $current_page == 'employee' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('employee') ?>"><i class="fas fa-user"></i> <span>Employees</span></a></li>
+        <li class="<?= $current_page == 'attendance' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('attendance') ?>"><i class="fas fa-clipboard"></i> <span>Attendance</span></a></li>
+        <li class="<?= $current_page == 'presence' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('presence') ?>"><i class="fas fa-user-check"></i> <span>Presences</span></a></li>
+      <?php endif; ?>
+      <?php if (in_groups('User')) : ?>
+        <li class="<?= $current_page == 'history' ? 'active' : '' ?>"><a class="nav-link" href="<?= site_url('history') ?>"><i class="fas fa-clipboard"></i> <span>History</span></a></li>
+      <?php endif ?>
   </aside>
 </div>

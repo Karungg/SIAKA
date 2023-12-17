@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', [\App\Controllers\DashboardController::class, 'index']);
 
+$routes->get('/history', [\App\Controllers\Home::class, 'history']);
+
 $routes->group('position', ['filter' => 'permission:manage-position'], static function ($routes) {
     $routes->get('', [\App\Controllers\PositionController::class, 'index']);
     $routes->get('create', [\App\Controllers\PositionController::class, 'create']);
